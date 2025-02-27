@@ -7,13 +7,8 @@
     NODE_VERSION = "20"
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-[[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/200.html"
   status = 200
 
 # To use Netlify Dev, install Netlify's CLI (`netlify-cli`) from NPM and use `netlify link`
