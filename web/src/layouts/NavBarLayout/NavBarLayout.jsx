@@ -1,11 +1,9 @@
-import { useState } from 'react';
-//import { Link, useAuth } from '@redwoodjs/auth'
+import { useState } from 'react'
 import { Link, routes } from '@redwoodjs/router'
 
 const NavBarLayout = ({ children }) => {
   // Estado para controlar si el sidebar está abierto o cerrado
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  //const [isAuthenticated, currentUser, logOut] = useAuth()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <>
@@ -13,62 +11,114 @@ const NavBarLayout = ({ children }) => {
         {/* Sidebar */}
         <aside
           id="sidebar"
-          className={`absolute inset-y-0 left-0 w-64 transform space-y-6 bg-blue-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-            } md:relative md:translate-x-0`}
+          className={`absolute inset-y-0 left-0 w-64 transform space-y-6 bg-blue-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } md:relative md:translate-x-0`}
         >
-          <a href="#" className="flex items-center space-x-2 px-4 text-white">
-            <img src="https://truck-i.com/img/truck-i-l.png" className="h-8 w-8" alt="LogiTruck System" />
-            <span className="text-2xl font-extrabold">LogiTruck System</span>
-          </a>
+          {/* Header del sidebar con logo y botón de toggle */}
+          <div className="flex items-center justify-between px-4">
+            <a href="#" className="flex items-center space-x-2 text-white">
+              <img
+                src="https://truck-i.com/img/truck-i-l.png"
+                className="h-8 w-8"
+                alt="LogiTruck System"
+              />
+              <span className="text-2xl font-extrabold">LogiTruck System</span>
+            </a>
+            {/* Botón para cerrar el sidebar (visible solo en móviles) */}
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="md:hidden text-white focus:outline-none"
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
           <nav>
-            <a href="#" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+            <a
+              href="#"
+              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+            >
               Home
             </a>
             <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
               <summary>Coches</summary>
               <ul className="pl-4">
-                <li className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
                   <Link to={routes.newCar()}>Agregar coche</Link>
                 </li>
-                <li className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
                   <Link to={routes.cars()}>Ver coches</Link>
                 </li>
-                {/* <li className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
-                  <Link to={routes.home()}>Careers</Link>
-                </li> */}
               </ul>
             </details>
-            <a href="#" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+            <a
+              href="#"
+              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+            >
               Features
             </a>
-            <a href="#" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+            <a
+              href="#"
+              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+            >
               Pricing
             </a>
-            <a href="#" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+            <a
+              href="#"
+              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+            >
               Contact
             </a>
           </nav>
         </aside>
 
         <div className="flex-1 p-10">
-          {/* Botón para toggle (visible en móviles) */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="md:hidden mb-4 px-4 py-2 bg-blue-600 text-white rounded"
-          >
-            {sidebarOpen ? 'Cerrar Sidebar' : 'Abrir Sidebar'}
-          </button>
+          {/* Botón para abrir el sidebar (visible solo en móviles cuando está cerrado) */}
+          {!sidebarOpen && (
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden mb-4 px-4 py-2 bg-blue-600 text-white rounded focus:outline-none"
+            >
+              <svg
+                className="h-6 w-6 inline"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          )}
 
           <div className="rounded-lg bg-white p-6 shadow">
-            <p className="mt-2 text-gray-600">
-              <main className="container mx-auto p-4">{children}</main>
-            </p>
+            <main className="container mx-auto p-4">{children}</main>
           </div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default NavBarLayout;
-
+export default NavBarLayout
