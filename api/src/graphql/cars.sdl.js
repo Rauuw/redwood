@@ -8,8 +8,8 @@ export const schema = gql`
   }
 
   type Query {
-    cars: [Car!]! @requireAuth
-    car(id: Int!): Car @requireAuth
+    cars: [Car!]! @skipAuth
+    car(id: Int!): Car @skipAuth
   }
 
   input CreateCarInput {
@@ -27,8 +27,8 @@ export const schema = gql`
   }
 
   type Mutation {
-    createCar(input: CreateCarInput!): Car! @requireAuth
-    updateCar(id: Int!, input: UpdateCarInput!): Car! @requireAuth
-    deleteCar(id: Int!): Car! @requireAuth
+    createCar(input: CreateCarInput!): Car! @skipAuth
+    updateCar(id: Int!, input: UpdateCarInput!): Car! @skipAuth
+    deleteCar(id: Int!): Car! @skipAuth
   }
 `
