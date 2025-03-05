@@ -16,7 +16,8 @@ import NavBarLayout from './layouts/NavBarLayout/NavBarLayout'
 
 const Routes = () => {
   return (
-    <Router useAuth={useAuth}>
+    //<Router useAuth={useAuth}>
+    <Router>
       <Set wrap={NavBarLayout} title="Orders" titleTo="orders" buttonLabel="New Order" buttonTo="newOrder">
         <Route path="/orders/new" page={OrderNewOrderPage} name="newOrder" />
         <Route path="/orders/{id:Int}/edit" page={OrderEditOrderPage} name="editOrder" />
