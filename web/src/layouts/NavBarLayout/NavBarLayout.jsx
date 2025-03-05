@@ -17,7 +17,7 @@ const NavBarLayout = ({ children }) => {
         >
           {/* Header del sidebar con logo y botón de toggle */}
           <div className="flex items-center justify-between px-4">
-            <a href="#" className="flex items-center space-x-2 text-white">
+            <a  className="flex items-center space-x-2 text-white">
               <img
                 src="https://truck-i.com/img/truck-i-l.png"
                 className="h-8 w-8"
@@ -47,45 +47,72 @@ const NavBarLayout = ({ children }) => {
           </div>
 
           <nav>
-            <a
-              href="#"
+            <Link to={routes.home()}
               className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
             >
               Home
-            </a>
+            </Link>
             <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
-              <summary>Coches</summary>
+              <summary>Empresa</summary>
               <ul className="pl-4">
                 <li
                   className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
                 >
-                  <Link to={routes.newCar()}>Agregar coche</Link>
+                  <Link to={routes.newCompany()}>Agregar empresa</Link>
                 </li>
                 <li
                   className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
                 >
-                  <Link to={routes.cars()}>Ver coches</Link>
+                  <Link to={routes.companies()}>Ver empresas</Link>
                 </li>
               </ul>
             </details>
-            <a
-              href="#"
-              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-            >
-              Features
-            </a>
-            <a
-              href="#"
-              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-            >
-              Pricing
-            </a>
-            <a
-              href="#"
-              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-            >
-              Contact
-            </a>
+            <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+              <summary>Camion</summary>
+              <ul className="pl-4">
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
+                  <Link to={routes.newTruck()}>Agregar camion</Link>
+                </li>
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
+                  <Link to={routes.trucks()}>Ver camiones</Link>
+                </li>
+              </ul>
+            </details>
+            <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+              <summary>Conductor</summary>
+              <ul className="pl-4">
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
+                  <Link to={routes.newDriver()}>Agregar conductor</Link>
+                </li>
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
+                  <Link to={routes.drivers()}>Ver conductores</Link>
+                </li>
+              </ul>
+            </details>
+            <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+              <summary>Orden</summary>
+              <ul className="pl-4">
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
+                  <Link to={routes.newOrder()}>Agregar orden</Link>
+                </li>
+                <li
+                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+                >
+                  <Link to={routes.orders()}>Ver ordenes</Link>
+                </li>
+              </ul>
+            </details>
+
           </nav>
         </aside>
 
