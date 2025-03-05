@@ -11,8 +11,8 @@ export const schema = gql`
   }
 
   type Query {
-    orders: [Order!]! @requireAuth
-    order(id: Int!): Order @requireAuth
+    orders: [Order!]! @skipAuth
+    order(id: Int!): Order @skipAuth
   }
 
   input CreateOrderInput {

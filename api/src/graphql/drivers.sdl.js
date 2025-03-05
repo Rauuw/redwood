@@ -11,8 +11,8 @@ export const schema = gql`
   }
 
   type Query {
-    drivers: [Driver!]! @requireAuth
-    driver(id: Int!): Driver @requireAuth
+    drivers: [Driver!]! @skipAuth
+    driver(id: Int!): Driver @skipAuth
   }
 
   input CreateDriverInput {

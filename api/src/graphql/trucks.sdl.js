@@ -10,8 +10,8 @@ export const schema = gql`
   }
 
   type Query {
-    trucks: [Truck!]! @requireAuth
-    truck(id: Int!): Truck @requireAuth
+    trucks: [Truck!]! @skipAuth
+    truck(id: Int!): Truck @skipAuth
   }
 
   input CreateTruckInput {

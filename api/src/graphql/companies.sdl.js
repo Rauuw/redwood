@@ -12,8 +12,8 @@ export const schema = gql`
   }
 
   type Query {
-    companies: [Company!]! @requireAuth
-    company(id: Int!): Company @requireAuth
+    companies: [Company!]! @skipAuth
+    company(id: Int!): Company @skipAuth
   }
 
   input CreateCompanyInput {

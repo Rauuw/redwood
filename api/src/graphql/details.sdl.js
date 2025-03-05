@@ -8,8 +8,8 @@ export const schema = gql`
   }
 
   type Query {
-    details: [Detail!]! @requireAuth
-    detail(id: Int!): Detail @requireAuth
+    details: [Detail!]! @skipAuth
+    detail(id: Int!): Detail @skipAuth
   }
 
   input CreateDetailInput {
