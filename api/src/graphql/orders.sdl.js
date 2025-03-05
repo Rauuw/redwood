@@ -30,8 +30,8 @@ export const schema = gql`
   }
 
   type Mutation {
-    createOrder(input: CreateOrderInput!): Order! @requireAuth
-    updateOrder(id: Int!, input: UpdateOrderInput!): Order! @requireAuth
-    deleteOrder(id: Int!): Order! @requireAuth
+    createOrder(input: CreateOrderInput!): Order! @skipAuth
+    updateOrder(id: Int!, input: UpdateOrderInput!): Order! @skipAuth
+    deleteOrder(id: Int!): Order! @skipAuth
   }
 `

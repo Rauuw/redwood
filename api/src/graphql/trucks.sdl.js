@@ -31,8 +31,8 @@ export const schema = gql`
   }
 
   type Mutation {
-    createTruck(input: CreateTruckInput!): Truck! @requireAuth
-    updateTruck(id: Int!, input: UpdateTruckInput!): Truck! @requireAuth
-    deleteTruck(id: Int!): Truck! @requireAuth
+    createTruck(input: CreateTruckInput!): Truck! @skipAuth
+    updateTruck(id: Int!, input: UpdateTruckInput!): Truck! @skipAuth
+    deleteTruck(id: Int!): Truck! @skipAuth
   }
 `

@@ -34,8 +34,8 @@ export const schema = gql`
   }
 
   type Mutation {
-    createDriver(input: CreateDriverInput!): Driver! @requireAuth
-    updateDriver(id: Int!, input: UpdateDriverInput!): Driver! @requireAuth
-    deleteDriver(id: Int!): Driver! @requireAuth
+    createDriver(input: CreateDriverInput!): Driver! @skipAuth
+    updateDriver(id: Int!, input: UpdateDriverInput!): Driver! @skipAuth
+    deleteDriver(id: Int!): Driver! @skipAuth
   }
 `

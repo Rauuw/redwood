@@ -31,8 +31,8 @@ export const schema = gql`
   }
 
   type Mutation {
-    createCompany(input: CreateCompanyInput!): Company! @requireAuth
-    updateCompany(id: Int!, input: UpdateCompanyInput!): Company! @requireAuth
-    deleteCompany(id: Int!): Company! @requireAuth
+    createCompany(input: CreateCompanyInput!): Company! @skipAuth
+    updateCompany(id: Int!, input: UpdateCompanyInput!): Company! @skipAuth
+    deleteCompany(id: Int!): Company! @skipAuth
   }
 `
