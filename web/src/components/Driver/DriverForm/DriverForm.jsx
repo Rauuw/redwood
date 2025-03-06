@@ -8,6 +8,8 @@ import {
   NumberField,
   Submit,
 } from '@redwoodjs/forms'
+import { useQuery } from '@redwoodjs/web'
+import { gql } from 'graphql-tag'
 
 const formatDatetime = (value) => {
   if (value) {
@@ -15,10 +17,29 @@ const formatDatetime = (value) => {
   }
 }
 
+const GET_COMPANIES = gql`
+query GetCompanies {
+  companies {
+    id
+    name
+  }
+}
+`
+
 const DriverForm = (props) => {
-  const onSubmit = (data) => {
+  const onSubmit = (data, event) => {
+    const selectedCompany = event.target.elements.id_company.value
+
+    if (!selectedCompany) {
+      alert("Debe seleccionar una empresa antes de guardar.")
+      return
+    }
+
+    data.id_company = parseInt(selectedCompany, 10)
     props.onSave(data, props?.driver?.id)
   }
+
+  const { data, loading, error } = useQuery(GET_COMPANIES)
 
   return (
     <div className="rw-form-wrapper">
@@ -120,7 +141,7 @@ const DriverForm = (props) => {
 
         <FieldError name="email" className="rw-field-error" />
 
-        <Label
+        {/* <Label
           name="id_company"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -134,8 +155,24 @@ const DriverForm = (props) => {
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
-        />
+        /> */}
 
+        <Label
+          name="id_company"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Empresa
+        </Label>
+
+        <select name="id_company" className="rw-input" defaultValue={props.driver?.id_company || ''} required>
+          <option value="" disabled>Seleccione una empresa</option>
+          {data?.companies?.map((company) => (
+            <option key={company.id} value={company.id}>
+              {company.name}
+            </option>
+          ))}
+        </select>
         <FieldError name="id_company" className="rw-field-error" />
 
         <div className="rw-button-group">

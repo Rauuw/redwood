@@ -70,6 +70,7 @@ model Truck{
   ano Int
   id_company Int
   company Company @relation(fields: [id_company], references: [id])
+  details Detail[]
 }
 
 model Driver{
@@ -81,6 +82,7 @@ model Driver{
   email String @unique
   id_company Int
   company Company @relation(fields: [id_company], references: [id])
+  details Detail[]
 }
 
 model Order{
@@ -98,6 +100,10 @@ model Detail{
   id Int @id @default(autoincrement())
   id_order Int
   id_company Int
+  id_truck Int
+  id_driver Int
   order Order @relation(fields: [id_order], references: [id])
   company Company @relation(fields: [id_company], references: [id])
+  truck Truck @relation(fields: [id_truck], references: [id])
+  driver Driver @relation(fields: [id_driver], references: [id])
 }
