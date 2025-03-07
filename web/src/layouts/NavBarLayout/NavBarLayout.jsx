@@ -1,150 +1,236 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link, routes } from '@redwoodjs/router'
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  Box,
+  Divider,
+} from '@mui/material'
+import {
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ExpandLess,
+  ExpandMore,
+  Home as HomeIcon,
+  Business as BusinessIcon,
+  LocalShipping as LocalShippingIcon,
+  People as PeopleIcon,
+  Assignment as AssignmentIcon,
+} from '@mui/icons-material'
+import LogOut from 'src/components/LogOut/LogOut'
 
 const NavBarLayout = ({ children }) => {
-  // Estado para controlar si el sidebar está abierto o cerrado
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [openEmpresa, setOpenEmpresa] = useState(false)
+  const [openCamion, setOpenCamion] = useState(false)
+  const [openConductor, setOpenConductor] = useState(false)
+  const [openOrden, setOpenOrden] = useState(false)
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen)
+  }
 
   return (
-    <>
-      <div className="relative min-h-screen bg-gray-100 md:flex">
-        {/* Sidebar */}
-        <aside
-          id="sidebar"
-          className={`absolute inset-y-0 left-0 w-64 transform space-y-6 bg-blue-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out ${
-            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } md:relative md:translate-x-0`}
+    <Box sx={{ display: 'flex' }}>
+      {/* AppBar superior */}
+      <AppBar position="fixed">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={toggleDrawer}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            LogiTruck System
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      {/* Sidebar con Drawer */}
+      <Drawer
+        variant="temporary"
+        open={drawerOpen}
+        onClose={toggleDrawer}
+        ModalProps={{
+          keepMounted: true, // Mejorar performance en dispositivos móviles
+        }}
+        sx={{
+          '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box' },
+        }}
+      >
+        {/* Header del Sidebar */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            p: 2,
+            backgroundColor: 'primary.main',
+            color: 'primary.contrastText',
+          }}
         >
-          {/* Header del sidebar con logo y botón de toggle */}
-          <div className="flex items-center justify-between px-4">
-            <a  className="flex items-center space-x-2 text-white">
-              <img
-                src="https://truck-i.com/img/truck-i-l.png"
-                className="h-8 w-8"
-                alt="LogiTruck System"
-              />
-              <span className="text-2xl font-extrabold">LogiTruck System</span>
-            </a>
-            {/* Botón para cerrar el sidebar (visible solo en móviles) */}
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="md:hidden text-white focus:outline-none"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src="https://truck-i.com/img/truck-i-l.png"
+              alt="LogiTruck System"
+              style={{ width: 32, height: 32, marginRight: 8 }}
+            />
+            <Typography variant="h6">LogiTruck System</Typography>
+          </Box>
+          <IconButton onClick={toggleDrawer} sx={{ color: 'inherit' }}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </Box>
+        <Divider />
+
+        {/* Menú de navegación */}
+        <List>
+          <ListItem button component={Link} to={routes.home()}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+
+          {/* Sección Empresa */}
+          <ListItem button onClick={() => setOpenEmpresa(!openEmpresa)}>
+            <ListItemIcon>
+              <BusinessIcon />
+            </ListItemIcon>
+            <ListItemText primary="Empresa" />
+            {openEmpresa ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openEmpresa} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem
+                button
+                component={Link}
+                to={routes.newCompany()}
+                sx={{ pl: 4 }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-
-          <nav>
-            <Link to={routes.home()}
-              className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-            >
-              Home
-            </Link>
-            <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
-              <summary>Empresa</summary>
-              <ul className="pl-4">
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.newCompany()}>Agregar empresa</Link>
-                </li>
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.companies()}>Ver empresas</Link>
-                </li>
-              </ul>
-            </details>
-            <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
-              <summary>Camion</summary>
-              <ul className="pl-4">
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.newTruck()}>Agregar camion</Link>
-                </li>
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.trucks()}>Ver camiones</Link>
-                </li>
-              </ul>
-            </details>
-            <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
-              <summary>Conductor</summary>
-              <ul className="pl-4">
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.newDriver()}>Agregar conductor</Link>
-                </li>
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.drivers()}>Ver conductores</Link>
-                </li>
-              </ul>
-            </details>
-            <details className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
-              <summary>Orden</summary>
-              <ul className="pl-4">
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.newOrder()}>Agregar orden</Link>
-                </li>
-                <li
-                  className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-                >
-                  <Link to={routes.orders()}>Ver ordenes</Link>
-                </li>
-              </ul>
-            </details>
-
-          </nav>
-        </aside>
-
-        <div className="flex-1 p-10">
-          {/* Botón para abrir el sidebar (visible solo en móviles cuando está cerrado) */}
-          {!sidebarOpen && (
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="md:hidden mb-4 px-4 py-2 bg-blue-600 text-white rounded focus:outline-none"
-            >
-              <svg
-                className="h-6 w-6 inline"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                <ListItemText primary="Agregar empresa" />
+              </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to={routes.companies()}
+                sx={{ pl: 4 }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          )}
+                <ListItemText primary="Ver empresas" />
+              </ListItem>
+            </List>
+          </Collapse>
 
-          <div className="rounded-lg bg-white p-6 shadow">
-            <main className="container mx-auto p-4">{children}</main>
-          </div>
-        </div>
-      </div>
-    </>
+          {/* Sección Camión */}
+          <ListItem button onClick={() => setOpenCamion(!openCamion)}>
+            <ListItemIcon>
+              <LocalShippingIcon />
+            </ListItemIcon>
+            <ListItemText primary="Camión" />
+            {openCamion ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openCamion} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem
+                button
+                component={Link}
+                to={routes.newTruck()}
+                sx={{ pl: 4 }}
+              >
+                <ListItemText primary="Agregar camión" />
+              </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to={routes.trucks()}
+                sx={{ pl: 4 }}
+              >
+                <ListItemText primary="Ver camiones" />
+              </ListItem>
+            </List>
+          </Collapse>
+
+          {/* Sección Conductor */}
+          <ListItem button onClick={() => setOpenConductor(!openConductor)}>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Conductor" />
+            {openConductor ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openConductor} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem
+                button
+                component={Link}
+                to={routes.newDriver()}
+                sx={{ pl: 4 }}
+              >
+                <ListItemText primary="Agregar conductor" />
+              </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to={routes.drivers()}
+                sx={{ pl: 4 }}
+              >
+                <ListItemText primary="Ver conductores" />
+              </ListItem>
+            </List>
+          </Collapse>
+
+          {/* Sección Orden */}
+          <ListItem button onClick={() => setOpenOrden(!openOrden)}>
+            <ListItemIcon>
+              <AssignmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Orden" />
+            {openOrden ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={openOrden} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem
+                button
+                component={Link}
+                to={routes.newOrder()}
+                sx={{ pl: 4 }}
+              >
+                <ListItemText primary="Agregar orden" />
+              </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to={routes.orders()}
+                sx={{ pl: 4 }}
+              >
+                <ListItemText primary="Ver órdenes" />
+              </ListItem>
+            </List>
+          </Collapse>
+        </List>
+        <Divider>
+          <Box sx={{p: 2}}>
+            <LogOut />
+          </Box>
+        </Divider>
+      </Drawer>
+
+      {/* Contenido principal */}
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+        {children}
+      </Box>
+    </Box>
   )
 }
 

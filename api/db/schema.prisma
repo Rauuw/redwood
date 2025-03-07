@@ -16,94 +16,100 @@ generator client {
 
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 
-model Post{
-  id Int @id @default(autoincrement())
-  title String
-  body String
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
   createdAt DateTime @default(now())
 }
 
-model Contact{
-  id Int @id @default(autoincrement())
-  name String
-  email String
-  message String
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
   createdAt DateTime @default(now())
 }
 
 model User {
-  id                  Int       @id @default(autoincrement())
-  email               String    @unique
+  id             Int @id @default(autoincrement())
+  email          String  @unique
   hashedPassword      String
   salt                String
   resetToken          String?
   resetTokenExpiresAt DateTime?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id_role             Int
+  role      Role     @relation(fields: [id_role], references: [id])
 }
 
-model Car{
-  id Int @id @default(autoincrement())
-  marca String
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+}
+
+model Car {
+  id     Int    @id @default(autoincrement())
+  marca  String
   modelo String
-  placa String @unique
-  ano Int
+  placa  String @unique
+  ano    Int
 }
 
-model Company{
-  id Int @id @default(autoincrement())
-  name String
-  address String
-  phone String
-  email String @unique
+model Company {
+  id        Int      @id @default(autoincrement())
+  name      String
+  address   String
+  phone     String
+  email     String   @unique
   createdAt DateTime @default(now())
-  trucks Truck[]
-  drivers Driver[]
-  details Detail[]
+  trucks    Truck[]
+  drivers   Driver[]
+  details   Detail[]
 }
 
-model Truck{
-  id Int @id @default(autoincrement())
-  marca String
-  modelo String
-  placa String @unique
-  ano Int
+model Truck {
+  id         Int      @id @default(autoincrement())
+  marca      String
+  modelo     String
+  placa      String   @unique
+  ano        Int
   id_company Int
-  company Company @relation(fields: [id_company], references: [id])
-  details Detail[]
+  company    Company  @relation(fields: [id_company], references: [id])
+  details    Detail[]
 }
 
-model Driver{
-  id Int @id @default(autoincrement())
-  name String
-  cpf String @unique
-  birthDate DateTime
-  phone String
-  email String @unique
+model Driver {
+  id         Int      @id @default(autoincrement())
+  name       String
+  cpf        String   @unique
+  birthDate  DateTime
+  phone      String
+  email      String   @unique
   id_company Int
-  company Company @relation(fields: [id_company], references: [id])
-  details Detail[]
+  company    Company  @relation(fields: [id_company], references: [id])
+  details    Detail[]
 }
 
-model Order{
-  id Int @id @default(autoincrement())
-  origin String
+model Order {
+  id          Int      @id @default(autoincrement())
+  origin      String
   destination String
-  date DateTime
-  status String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  detail Detail[]
+  date        DateTime
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  detail      Detail[]
 }
 
-model Detail{
-  id Int @id @default(autoincrement())
-  id_order Int
+model Detail {
+  id         Int     @id @default(autoincrement())
+  id_order   Int
   id_company Int
-  id_truck Int
-  id_driver Int
-  order Order @relation(fields: [id_order], references: [id])
-  company Company @relation(fields: [id_company], references: [id])
-  truck Truck @relation(fields: [id_truck], references: [id])
-  driver Driver @relation(fields: [id_driver], references: [id])
+  id_truck   Int
+  id_driver  Int
+  order      Order   @relation(fields: [id_order], references: [id])
+  company    Company @relation(fields: [id_company], references: [id])
+  truck      Truck   @relation(fields: [id_truck], references: [id])
+  driver     Driver  @relation(fields: [id_driver], references: [id])
 }

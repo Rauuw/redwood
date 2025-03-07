@@ -116,14 +116,16 @@ export const handler = async (event, context) => {
       username,
       hashedPassword,
       salt,
-      userAttributes: _userAttributes,
+      userAttributes,
     }) => {
       return db.user.create({
         data: {
           email: username,
           hashedPassword: hashedPassword,
           salt: salt,
-          // name: userAttributes.name
+          role: {
+            connect: { id: userAttributes.id_role }
+          },
         },
       })
     },

@@ -6,6 +6,7 @@ import {
   TextField,
   PasswordField,
   FieldError,
+  NumberField,
   Submit,
 } from '@redwoodjs/forms'
 import { Link, navigate, routes } from '@redwoodjs/router'
@@ -29,19 +30,24 @@ const SignupPage = () => {
     usernameRef.current?.focus()
   }, [])
 
+  // const onSubmit = async (data) => {
+  //   // console.log('Formulario data:', data)
+  //   const response = await signUp({
+  //     username: data.username,
+  //     password: data.password,
+  //     userAttributes: {
+  //       id_role: parseInt(data.id_role, 10)
+  //     },
+  //   })
   const onSubmit = async (data) => {
-    const response = await signUp({
-      username: data.username,
-      password: data.password,
-    })
+    const response = await signUp({ ...data })
 
     if (response.message) {
       toast(response.message)
     } else if (response.error) {
       toast.error(response.error)
     } else {
-      // user is signed in automatically
-      toast.success('Welcome!')
+      // toast.success('Welcome!')
     }
   }
 
@@ -103,6 +109,25 @@ const SignupPage = () => {
                   />
 
                   <FieldError name="password" className="rw-field-error" />
+
+                  <Label
+                    name="id_role"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    Role
+                  </Label>
+                  <NumberField
+                    name="id_role"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                    validation={{
+                      required: {
+                        value: true,
+                        message: 'Role is required',
+                      },
+                    }}
+                  />
 
                   <div className="rw-button-group">
                     <Submit className="rw-button rw-button-blue">

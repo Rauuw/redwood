@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import {
   Form,
@@ -17,11 +17,14 @@ import { useAuth } from 'src/auth'
 const LoginPage = () => {
   const { isAuthenticated, logIn } = useAuth()
 
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate(routes.home())
+    if (isAuthenticated && hasSubmitted) {
+      toast.success('Welcome back!')
+        navigate(routes.home())
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, hasSubmitted])
 
   const usernameRef = useRef(null)
   useEffect(() => {
@@ -29,6 +32,7 @@ const LoginPage = () => {
   }, [])
 
   const onSubmit = async (data) => {
+    setHasSubmitted(true)
     const response = await logIn({
       username: data.username,
       password: data.password,
@@ -38,8 +42,7 @@ const LoginPage = () => {
       toast(response.message)
     } else if (response.error) {
       toast.error(response.error)
-    } else {
-      toast.success('Welcome back!')
+      setHasSubmitted(false)
     }
   }
 
@@ -100,29 +103,19 @@ const LoginPage = () => {
                     }}
                   />
 
-                  <div className="rw-forgot-link">
-                    <Link
-                      to={routes.forgotPassword()}
-                      className="rw-forgot-link"
-                    >
-                      Forgot Password?
-                    </Link>
-                  </div>
-
                   <FieldError name="password" className="rw-field-error" />
 
                   <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">Login</Submit>
+                    <Submit className="rw-button rw-button-blue">Ingresar</Submit>
                   </div>
                 </Form>
               </div>
             </div>
           </div>
-          <div className="rw-login-link">
-            <span>Don&apos;t have an account?</span>{' '}
-            <Link to={routes.signup()} className="rw-link">
-              Sign up!
-            </Link>
+          <div className="rw-alert rw-login-link">
+            <span>
+              Solicite acceso al adminstrador
+            </span>
           </div>
         </div>
       </main>
